@@ -36,8 +36,6 @@ for price, date in zip(close_list, dates_list):
             buy_prices = []
             buy_dates = []
 
-    # print(price, type(price))
-    # print(prev_price, type(prev_price))
     percent_drop = (price - prev_price) / prev_price
     if percent_drop <= -percent_drop_min:
 
