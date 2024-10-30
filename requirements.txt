@@ -27,5 +27,5 @@ soupsieve==2.5
 tzdata==2023.3
 urllib3==2.0.4
 webencodings==0.5.1
-yfinance==0.2.36
+yfinance==0.2.48
 zipp==3.16.2
