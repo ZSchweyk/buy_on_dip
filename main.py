@@ -6,7 +6,7 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "msft"
+ticker = "MSFT"
 start_date = "1984-01-01"
 end_date = "2024-10-29"
 percent_drop_min = .05
@@ -18,7 +18,7 @@ percent_gain_min = .05
 
 
 data = yf.download(ticker, start_date, end_date)
-close_list = list(data["Close"])
+close_list = list(data["Close"][ticker])
 dates_list = list(data.index.values)
 
 prev_price = close_list[0]
@@ -36,6 +36,8 @@ for price, date in zip(close_list, dates_list):
             buy_prices = []
             buy_dates = []
 
+    # print(price, type(price))
+    # print(prev_price, type(prev_price))
     percent_drop = (price - prev_price) / prev_price
     if percent_drop <= -percent_drop_min:
 
