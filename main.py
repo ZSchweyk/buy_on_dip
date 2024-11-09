@@ -40,6 +40,7 @@ for price, date in zip(close_list, dates_list):
     percent_drop = (price - prev_price) / prev_price
     if percent_drop <= -percent_drop_min:
         # Ensure that `price` is below the average buy price by percent_drop_min. Don't want a buy to happen too close to the average buy, as that won't average us down very much at all.
+        # Of course, buy if the stock hasn't yet dipped at all or if this is a new segment.
         if len(buy_prices) == 0 or price <= numpy.mean(buy_prices) * (1-percent_drop_min):
             buy_prices.append(price)
             buy_dates.append(date)
