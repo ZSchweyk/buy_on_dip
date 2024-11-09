@@ -6,7 +6,7 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "MSFT"
+ticker = "NVDA"
 start_date = "1984-01-01"
 end_date = "2024-11-08"
 percent_drop_min = .05
@@ -38,13 +38,21 @@ for price, date in zip(close_list, dates_list):
 
     
     percent_drop = (price - prev_price) / prev_price
-    if percent_drop <= -percent_drop_min:
+    msg = None
+    condition_satisfied = False
+    if (len(buy_prices) == 0 and percent_drop <= -percent_drop_min):
+        msg = f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}"
+        condition_satisfied = True
+    elif len(buy_prices) != 0 and price <= numpy.mean(buy_prices) * (1-percent_drop_min):
+        msg = f"{ticker} is below the mean by {round((1 - price/numpy.mean(buy_prices)) * 100, 2)}%>={round(percent_drop_min * 100, 2)}% on {str(date)[:10]}"
+        condition_satisfied = True
+    
+    if condition_satisfied:
         # Ensure that `price` is below the average buy price by percent_drop_min. Don't want a buy to happen too close to the average buy, as that won't average us down very much at all.
         # Of course, buy if the stock hasn't yet dipped at all or if this is a new segment.
-        if len(buy_prices) == 0 or price <= numpy.mean(buy_prices) * (1-percent_drop_min):
-            buy_prices.append(price)
-            buy_dates.append(date)
-            print(f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}. Bought 1 share at ${round(buy_prices[-1], 2)}. Average price at ${round(numpy.mean(buy_prices), 2)}.")
+        buy_prices.append(price)
+        buy_dates.append(date)
+        print(f"{msg}. Bought 1 share at ${round(buy_prices[-1], 2)}. Average price at ${round(numpy.mean(buy_prices), 2)}.")
 
     prev_price = price
 
