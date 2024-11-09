@@ -36,14 +36,11 @@ for price, date in zip(close_list, dates_list):
             buy_prices = []
             buy_dates = []
 
-    
     percent_drop = (price - prev_price) / prev_price
     if percent_drop <= -percent_drop_min:
-        # Ensure that `price` is below the average buy price by percent_drop_min. Don't want a buy to happen too close to the average buy, as that won't average us down very much at all.
-        if len(buy_prices) == 0 or price <= numpy.mean(buy_prices) * (1-percent_drop_min):
-            buy_prices.append(price)
-            buy_dates.append(date)
-            print(f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}. Bought 1 share at ${round(buy_prices[-1], 2)}. Average price at ${round(numpy.mean(buy_prices), 2)}.")
+        buy_prices.append(price)
+        buy_dates.append(date)
+        print(f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}. Bought 1 share at ${round(buy_prices[-1], 2)}. Average price at ${round(numpy.mean(buy_prices), 2)}.")
 
     prev_price = price
 
