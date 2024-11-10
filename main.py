@@ -6,13 +6,13 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "SPY"
+ticker = "QQQ"
 start_date = "1984-01-01"
 end_date = "2024-11-08"
 percent_drop_min = .05
 percent_gain_min = .05
 
-quantities = [i for i in range(1, 1000)]
+quantities = [2 ** i for i in range(0, 32)]
 
 #############################################
 
