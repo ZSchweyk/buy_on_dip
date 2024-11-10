@@ -6,7 +6,7 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "NVDA"
+ticker = "SPY"
 start_date = "1984-01-01"
 end_date = "2024-11-08"
 percent_drop_min = .05

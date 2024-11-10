@@ -6,13 +6,13 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "NVDA"
+ticker = "SPY"
 start_date = "1984-01-01"
 end_date = "2024-11-08"
 percent_drop_min = .05
 percent_gain_min = .05
 
-quantities = [2 ** i for i in range(0, 20)]
+quantities = [i for i in range(1, 1000)]
 
 #############################################
 
@@ -47,16 +47,15 @@ for price, date in zip(close_list, dates_list):
     percent_drop = (price - prev_price) / prev_price
     msg = None
     condition_satisfied = False
-    if (len(buy_prices) == 0 and percent_drop <= -percent_drop_min):
-        msg = f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}"
-        condition_satisfied = True
-    elif len(buy_prices) != 0 and price <= calc_mean_price(buy_prices, buy_quantities) * (1-percent_drop_min):
-        msg = f"{ticker} is below the mean by {round((1 - price/calc_mean_price(buy_prices, buy_quantities)) * 100, 2)}%>={round(percent_drop_min * 100, 2)}% on {str(date)[:10]}"
+    if len(buy_prices) == 0:
+        if percent_drop <= -percent_drop_min:
+            msg = f"{ticker} dropped {round(percent_drop * 100, 2)}% on {str(date)[:10]}"
+            condition_satisfied = True
+    elif price <= calc_mean_price(buy_prices, buy_quantities) * (1-percent_drop_min) and price <= buy_prices[-1] * (1-percent_drop_min):
+        msg = f"{ticker} is below the mean by {round((1 - price/calc_mean_price(buy_prices, buy_quantities)) * 100, 2)}%>={round(percent_drop_min * 100, 2)}% and significantly below last purchase price on {str(date)[:10]}"
         condition_satisfied = True
     
     if condition_satisfied:
-        # Ensure that `price` is below the average buy price by percent_drop_min. Don't want a buy to happen too close to the average buy, as that won't average us down very much at all.
-        # Of course, buy if the stock hasn't yet dipped at all or if this is a new segment.
         buy_prices.append(price)
         buy_dates.append(date)
         buy_quantities.append(quantities[len(buy_quantities)])
