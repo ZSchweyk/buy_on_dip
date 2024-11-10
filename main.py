@@ -6,21 +6,23 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "QQQ"
+ticker = "SPY"
 start_date = "1984-01-01"
 end_date = "2024-11-08"
-percent_drop_min = .05
-percent_gain_min = .05
+percent_drop_min = .025
+percent_gain_min = .025
 
-quantities = [1 for i in range(0, 1000)]
+quantities = [2 ** i for i in range(0, 24)]
 
 #############################################
+
+for _input in (ticker, start_date, end_date, percent_drop_min, percent_gain_min, quantities):
+    print(_input)
+print(f"{'-'*10}\n\n\n")
 
 
 def calc_mean_price(buy_prices: list, buy_quantities: list):
     return numpy.dot(buy_prices, buy_quantities) / sum(buy_quantities)
-
-
 
 data = yf.download(ticker, start_date, end_date)
 close_list = list(data["Close"][ticker])
