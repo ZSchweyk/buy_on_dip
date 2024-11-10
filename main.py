@@ -12,7 +12,7 @@ end_date = "2024-11-08"
 percent_drop_min = .05
 percent_gain_min = .05
 
-quantities = [2 ** i for i in range(0, 32)]
+quantities = [1 for i in range(0, 1000)]
 
 #############################################
 
