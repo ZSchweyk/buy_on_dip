@@ -6,18 +6,21 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "GLD"
+ticker = "VOD"
 start_date = "1984-01-01"
-end_date = "2024-11-11"
-percent_drop_min = .025
-percent_gain_min = .025
+end_date = "2024-11-12"
+percent_drop_min = .09
+percent_gain_min = .05
 
-quantities = [i for i in range(1, 100)]
+quantities = [1 for i in range(0, 100)]
 
 #############################################
 
-for _input in (ticker, start_date, end_date, percent_drop_min, percent_gain_min, quantities):
-    print(_input)
+for name, _input in (("Ticker", ticker), ("Start Date", start_date), ("End Date", end_date), ("Min Percent Drop", percent_drop_min), ("Min Percent Gain", percent_gain_min), ("Share Quantities", quantities)):
+    if name == "Min Percent Drop" or name == "Min Percent Gain":
+        print(f"{name}: {round(_input * 100, 2)}%")
+    else:
+        print(f"{name}: {_input}")
 print(f"{'-'*10}\n\n\n")
 
 
