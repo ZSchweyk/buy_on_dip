@@ -6,13 +6,13 @@ import yfinance as yf
 
 #################### Input ####################
 
-ticker = "VOD"
+ticker = "SPY"
 start_date = "1984-01-01"
-end_date = "2024-11-12"
-percent_drop_min = .09
-percent_gain_min = .05
+end_date = "2024-12-31"
+percent_drop_min = .025
+percent_gain_min = .025
 
-quantities = [1 for i in range(0, 100)]
+quantities = [1 for i in range(1, 100)]
 
 #############################################
 
@@ -41,7 +41,7 @@ for price, date in zip(close_list, dates_list):
         percent_gain = (price - average_buy_price) / average_buy_price
         if percent_gain >= percent_gain_min:
             num_days = numpy.timedelta64(date - buy_dates[0], 'D').astype(int)
-            annualized_return = (1 + percent_gain) ** (365/num_days) - 1
+            annualized_return = percent_gain * 365/num_days
             print(f"Investment gained {round(percent_gain * 100, 2)}% on {str(date)[:10]}. Span of {num_days} days. Sold {sum(buy_quantities)} shares at ${round(price, 2)}")
             print(f"Annualized return: {round(annualized_return * 100, 2)}%\n")
             buy_prices = []
